@@ -1,0 +1,222 @@
+id: https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl
+name: s4bldg_lite
+imports:
+  - linkml:types
+prefixes:
+  linkml: https://w3id.org/linkml/
+  s4bldg_lite: https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl/
+  s4bldg: https://saref.etsi.org/saref4bldg/
+  saref: https://saref.etsi.org/core/
+  unit: https://qudt.org/vocab/unit/
+default_prefix: s4bldg
+
+classes:
+  SemanticDescription:
+    tree_root: true
+    class_uri: s4bldg_lite:SemanticDescription
+    attributes:
+      buildings:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: Building
+      buildingSpaces:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: BuildingSpace
+      boilers:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: Boiler
+      spaceHeaters:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: SpaceHeater
+      electricAppliances:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: ElectricAppliance
+      flowMeters:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: FlowMeter
+      solarDevices:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: SolarDevice
+      electricFlowStorageDevices:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: ElectricFlowStorageDevice
+      energyConversionDevices:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: EnergyConversionDevice
+      transformers:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: Transformer
+  Building:
+    class_uri: s4bldg:Building
+    slots:
+      - id
+  BuildingSpace:
+    class_uri: s4bldg:BuildingSpace
+    slots:
+      - id
+      - isSpaceOf
+  Device:
+    class_uri: saref:Device
+    slots:
+      - id
+      - isContainedIn
+  Boiler:
+    class_uri: s4bldg:Boiler
+    is_a: Device
+    slots:
+      - outputCapacity
+      - nominalHeatingCapacity
+      - nominalCapacity
+      - nominalEnergyConsumption
+  SpaceHeater:
+    class_uri: s4bldg:SpaceHeater
+    is_a: Device
+    slots:
+      - outputCapacity
+  ElectricAppliance:
+    class_uri: s4bldg:ElectricAppliance
+    is_a: Device
+    slots:
+      - nominalCapacity
+      - nominalPowerConsumption
+      - nominalEnergyConsumption
+      - apparentPowerMax
+  FlowMeter:
+    class_uri: s4bldg:FlowMeter
+    is_a: Device
+    slots:
+      - outputCapacity
+      - nominalHeatingCapacity
+      - nominalCapacity
+      - nominalPowerConsumption
+      - nominalEnergyConsumption
+      - apparentPowerMax
+  SolarDevice:
+    class_uri: s4bldg:SolarDevice
+    is_a: Device
+    slots:
+      - nominalCapacity
+      - apparentPowerMax
+  ElectricFlowStorageDevice:
+    class_uri: s4bldg:ElectricFlowStorageDevice
+    is_a: Device
+    slots:
+      - nominalCapacity
+      - nominalPowerConsumption
+      - nominalEnergyConsumption
+      - apparentPowerMax
+      - storageType
+  EnergyConversionDevice:
+    class_uri: s4bldg:EnergyConversionDevice
+    is_a: Device
+    slots:
+      - outputCapacity
+      - nominalHeatingCapacity
+      - nominalCapacity
+      - nominalPowerConsumption
+      - nominalEnergyConsumption
+      - apparentPowerMax
+  Transformer:
+    class_uri: s4bldg:Transformer
+    is_a: Device
+    slots:
+      - outputCapacity
+      - nominalCapacity
+      - apparentPowerMax
+      - primaryApparentPower
+      - secondaryApparentPower
+  PropertyValue:
+    class_uri: saref:PropertyValue
+    slots:
+      - hasValue
+      - isMeasuredIn
+slots:
+  id:
+    identifier: true
+  isSpaceOf:
+    domain: BuildingSpace
+    range: Building
+    slot_uri: s4bldg:isSpaceOf
+  isContainedIn:
+    range: BuildingSpace
+    slot_uri: s4bldg:isContainedIn
+  hasValue:
+    slot_uri: saref:hasValue
+    range: float
+  isMeasuredIn:
+    slot_uri: saref:isMeasuredIn
+    range: Units
+  outputCapacity:
+    description: >-
+      Total nominal heat output as listed by the manufacturer. Usually measured in Watts (W, J/s).
+    range: PropertyValue
+    slot_uri: s4bldg:outputCapacity
+  nominalHeatingCapacity:
+    description: >-
+      Nominal heating capacity. Usually measured in Watts (W, J/s).
+    range: PropertyValue
+    slot_uri: s4bldg:nominalHeatingCapacity
+  nominalCapacity:
+    description: >-
+      Nominal capacity. Usually measured in Watts (W, J/s).
+    range: PropertyValue
+    slot_uri: s4bldg:nominalCapacity
+  nominalPowerConsumption:
+    description: >-
+      Nominal total power consumption. Usually measured in Watts (W, J/s).
+    range: PropertyValue
+    slot_uri: s4bldg:nominalPowerConsumption
+  nominalEnergyConsumption:
+    description: >-
+      Nominal total power consumption. Usually measured in Watts (W, J/s).
+    range: PropertyValue
+    slot_uri: s4bldg:nominalEnergyConsumption
+  apparentPowerMax:
+    description: >-
+      Maximum apparent power/capacity in VA (volt ampere). Usually measured in Watts (W, J/s).
+    range: PropertyValue
+    slot_uri: s4bldg:apparentPowerMax
+  storageType:
+    description: >-
+      Defines the general material category intended to be stored.
+    range: string
+    slot_uri: s4bldg:storageType
+  primaryApparentPower:
+    description: >-
+      The power in VA (volt ampere) that has been transformed and that runs into the transformer on the primary side. 
+      Usually measured in Watts (W, J/s).
+    range: PropertyValue
+    slot_uri: s4bldg:primaryApparentPower
+  secondaryApparentPower:
+    description: >-
+      The power in VA (volt ampere) that has been transformed and is running out of the transformer on the secondary side. 
+      Usually measured in Watts (W, J/s).
+    range: PropertyValue
+    slot_uri: s4bldg:secondaryApparentPower
+
+enums:
+  Units:
+    permissible_values:
+      KW:
+        meaning: unit:KiloW
+      KWH:
+        meaning: unit:KiloW-HR

@@ -1,0 +1,72 @@
+LLMGraphConfigurator:
+  configurators:
+    - type: ollama
+      model: ministral-3:14b-cloud
+      think: false
+      input_source: text
+      prompt_with_examples: false
+      temperature: 0.15
+      seed: 0
+    - type: ollama
+      model: ministral-3:14b-cloud
+      think: false
+      input_source: brick
+      prompt_with_examples: false
+      temperature: 0.15
+      seed: 0
+    - type: ollama
+      model: ministral-3:14b-cloud
+      think: false
+      input_source: brick_anon
+      prompt_with_examples: false
+      temperature: 0.15
+      seed: 0
+    - type: ollama
+      model: ministral-3:14b-cloud
+      think: false
+      input_source: s4bldg
+      prompt_with_examples: false
+      temperature: 0.15
+      seed: 0
+    - type: ollama
+      model: ministral-3:14b-cloud
+      think: false
+      input_source: s4bldg_anon
+      prompt_with_examples: false
+      temperature: 0.15
+      seed: 0
+    - type: ollama
+      model: ministral-3:14b-cloud
+      think: false
+      input_source: text
+      prompt_with_examples: true
+      temperature: 0.15
+      seed: 0
+    - type: ollama
+      model: ministral-3:14b-cloud
+      think: false
+      input_source: brick
+      prompt_with_examples: true
+      temperature: 0.15
+      seed: 0
+    - type: ollama
+      model: ministral-3:14b-cloud
+      think: false
+      input_source: brick_anon
+      prompt_with_examples: true
+      temperature: 0.15
+      seed: 0
+    - type: ollama
+      model: ministral-3:14b-cloud
+      think: false
+      input_source: s4bldg
+      prompt_with_examples: true
+      temperature: 0.15
+      seed: 0
+    - type: ollama
+      model: ministral-3:14b-cloud
+      think: false
+      input_source: s4bldg_anon
+      prompt_with_examples: true
+      temperature: 0.15
+      seed: 0

@@ -1,0 +1,461 @@
+﻿@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix brick_lite: <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rec: <https://w3id.org/rec#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix unit: <https://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+brick:Battery_Energy_Storage_System a owl:Class ;
+    rdfs:label "BatteryEnergyStorageSystem" ;
+    rdfs:subClassOf brick:Energy_Storage_System ;
+    skos:exactMatch brick:BatteryEnergyStorageSystem ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Building_Electrical_Meter a owl:Class ;
+    rdfs:label "BuildingElectricalMeter" ;
+    rdfs:subClassOf brick:Electrical_Meter ;
+    skos:exactMatch brick:BuildingElectricalMeter ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Building_Hot_Water_Meter a owl:Class ;
+    rdfs:label "BuildingHotWaterMeter" ;
+    rdfs:subClassOf brick:Hot_Water_Meter ;
+    skos:exactMatch brick:BuildingHotWaterMeter ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Domestic_Hot_Water_System a owl:Class ;
+    rdfs:label "DomesticHotWaterSystem" ;
+    rdfs:subClassOf brick:System ;
+    skos:exactMatch brick:DomesticHotWaterSystem ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Electric_Vehicle_Charging_Station a owl:Class ;
+    rdfs:label "ElectricVehicleChargingStation" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:ratedPowerInput ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:PropValue ;
+            owl:onProperty brick:ratedPowerInput ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:PropValue ;
+            owl:onProperty brick:electricVehicleChargerDirectionality ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:electricVehicleChargerDirectionality ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:ratedPowerInput ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:electricVehicleChargerDirectionality ],
+        brick:Equipment ;
+    skos:exactMatch brick:ElectricVehicleChargingStation ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Electrical_Equipment a owl:Class ;
+    rdfs:label "ElectricalEquipment" ;
+    rdfs:subClassOf brick:Equipment ;
+    skos:exactMatch brick:ElectricalEquipment ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Hot_Water_Loop a owl:Class ;
+    rdfs:label "HotWaterLoop" ;
+    rdfs:subClassOf brick:Loop ;
+    skos:exactMatch brick:HotWaterLoop ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Hot_Water_System a owl:Class ;
+    rdfs:label "HotWaterSystem" ;
+    rdfs:subClassOf brick:System ;
+    skos:exactMatch brick:HotWaterSystem ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:PV_Generation_System a owl:Class ;
+    rdfs:label "PVGenerationSystem" ;
+    rdfs:subClassOf brick:Energy_Generation_System ;
+    skos:exactMatch brick:PVGenerationSystem ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:PV_Panel a owl:Class ;
+    rdfs:label "PVPanel" ;
+    rdfs:subClassOf brick:Equipment ;
+    skos:exactMatch brick:PVPanel ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Packaged_Heat_Pump a owl:Class ;
+    rdfs:label "PackagedHeatPump" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom brick:PropValue ;
+            owl:onProperty brick:ratedPowerInput ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:conversionEfficiency ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:ratedPowerInput ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:ratedPowerOutput ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:PropValue ;
+            owl:onProperty brick:ratedPowerOutput ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:conversionEfficiency ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:ratedPowerInput ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:PropValue ;
+            owl:onProperty brick:conversionEfficiency ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:ratedPowerOutput ],
+        brick:Equipment ;
+    skos:exactMatch brick:PackagedHeatPump ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+<https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl.owl.ttl> a owl:Ontology ;
+    rdfs:label "brick_lite" .
+
+brick_lite:SemanticDescription a owl:Class ;
+    rdfs:label "SemanticDescription" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:loops ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom rec:Building ;
+            owl:onProperty brick:buildings ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:equipment ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:systems ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:Loop ;
+            owl:onProperty brick:loops ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:buildings ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:Equipment ;
+            owl:onProperty brick:equipment ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:System ;
+            owl:onProperty brick:systems ] ;
+    skos:exactMatch brick:SemanticDescription ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Battery a owl:Class ;
+    rdfs:label "Battery" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:ratedPowerOutput ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:ratedPowerInput ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:conversionEfficiency ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:ratedPowerOutput ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:PropValue ;
+            owl:onProperty brick:conversionEfficiency ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:PropValue ;
+            owl:onProperty brick:ratedPowerOutput ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:conversionEfficiency ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:ratedPowerInput ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:PropValue ;
+            owl:onProperty brick:ratedPowerInput ],
+        brick:Equipment ;
+    skos:exactMatch brick:Battery ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Boiler a owl:Class ;
+    rdfs:label "Boiler" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:ratedPowerOutput ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:ratedPowerOutput ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:PropValue ;
+            owl:onProperty brick:ratedPowerOutput ],
+        brick:Equipment ;
+    skos:exactMatch brick:Boiler ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Electrical_Meter a owl:Class ;
+    rdfs:label "ElectricalMeter" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:ratedPowerOutput ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:ratedPowerInput ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:ratedPowerInput ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:ratedPowerOutput ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:PropValue ;
+            owl:onProperty brick:ratedPowerOutput ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:PropValue ;
+            owl:onProperty brick:ratedPowerInput ],
+        brick:Equipment ;
+    skos:exactMatch brick:ElectricalMeter ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Electrical_System a owl:Class ;
+    rdfs:label "ElectricalSystem" ;
+    rdfs:subClassOf brick:System ;
+    skos:exactMatch brick:ElectricalSystem ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Energy_Generation_System a owl:Class ;
+    rdfs:label "EnergyGenerationSystem" ;
+    rdfs:subClassOf brick:Energy_System ;
+    skos:exactMatch brick:EnergyGenerationSystem ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Energy_Storage_System a owl:Class ;
+    rdfs:label "EnergyStorageSystem" ;
+    rdfs:subClassOf brick:Energy_System ;
+    skos:exactMatch brick:EnergyStorageSystem ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Hot_Water_Meter a owl:Class ;
+    rdfs:label "HotWaterMeter" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:ratedPowerInput ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:PropValue ;
+            owl:onProperty brick:ratedPowerInput ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:ratedPowerInput ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:ratedPowerOutput ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:ratedPowerOutput ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:PropValue ;
+            owl:onProperty brick:ratedPowerOutput ],
+        brick:Equipment ;
+    skos:exactMatch brick:HotWaterMeter ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Transformer a owl:Class ;
+    rdfs:label "Transformer" ;
+    rdfs:subClassOf brick:Equipment ;
+    skos:exactMatch brick:Transformer ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Energy_System a owl:Class ;
+    rdfs:label "EnergySystem" ;
+    rdfs:subClassOf brick:Electrical_System ;
+    skos:exactMatch brick:EnergySystem ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:buildings a owl:ObjectProperty ;
+    rdfs:label "buildings" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:equipment a owl:ObjectProperty ;
+    rdfs:label "equipment" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:loops a owl:ObjectProperty ;
+    rdfs:label "loops" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:systems a owl:ObjectProperty ;
+    rdfs:label "systems" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+unit:KiloW a owl:Class ;
+    rdfs:label "KW" ;
+    rdfs:subClassOf brick:Units .
+
+unit:KiloW-HR a owl:Class ;
+    rdfs:label "KWH" ;
+    rdfs:subClassOf brick:Units .
+
+brick:Loop a owl:Class ;
+    rdfs:label "Loop" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:id ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:hasPart ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty brick:id ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom owl:Thing ;
+            owl:onProperty brick:id ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:Equipment ;
+            owl:onProperty brick:hasPart ] ;
+    skos:exactMatch brick:Loop ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:electricVehicleChargerDirectionality a owl:ObjectProperty ;
+    rdfs:label "electricVehicleChargerDirectionality" ;
+    rdfs:range brick:PropValue ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:hasLocation a owl:ObjectProperty ;
+    rdfs:label "hasLocation" ;
+    rdfs:range rec:Building ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:hasUnit a owl:ObjectProperty ;
+    rdfs:label "hasUnit" ;
+    rdfs:range brick:Units ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:value a owl:DatatypeProperty ;
+    rdfs:label "value" ;
+    rdfs:range xsd:float ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+rec:Building a owl:Class ;
+    rdfs:label "Building" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom owl:Thing ;
+            owl:onProperty brick:id ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:id ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty brick:id ] ;
+    skos:exactMatch brick:Building ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Units a owl:Class ;
+    rdfs:label "Units" ;
+    owl:unionOf ( unit:KiloW unit:KiloW-HR ) ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> ;
+    linkml:permissible_values unit:KiloW,
+        unit:KiloW-HR .
+
+brick:System a owl:Class ;
+    rdfs:label "System" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty brick:id ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom owl:Thing ;
+            owl:onProperty brick:id ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:Equipment ;
+            owl:onProperty brick:hasPart ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:hasPart ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:id ] ;
+    skos:exactMatch brick:System ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:conversionEfficiency a owl:ObjectProperty ;
+    rdfs:label "conversionEfficiency" ;
+    rdfs:range brick:PropValue ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:hasPart a owl:ObjectProperty ;
+    rdfs:label "hasPart" ;
+    rdfs:range brick:Equipment ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:id a owl:ObjectProperty ;
+    rdfs:label "id" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:Equipment a owl:Class ;
+    rdfs:label "Equipment" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty brick:id ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:id ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:hasLocation ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:Equipment ;
+            owl:onProperty brick:hasPart ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom owl:Thing ;
+            owl:onProperty brick:id ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:hasPart ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:hasLocation ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom rec:Building ;
+            owl:onProperty brick:hasLocation ] ;
+    skos:exactMatch brick:Equipment ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:ratedPowerInput a owl:ObjectProperty ;
+    rdfs:label "ratedPowerInput" ;
+    rdfs:range brick:PropValue ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:ratedPowerOutput a owl:ObjectProperty ;
+    rdfs:label "ratedPowerOutput" ;
+    rdfs:range brick:PropValue ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+brick:PropValue a owl:Class ;
+    rdfs:label "PropValue" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:hasUnit ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty brick:value ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:value ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom brick:Units ;
+            owl:onProperty brick:hasUnit ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty brick:hasUnit ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty brick:value ] ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl> .
+
+

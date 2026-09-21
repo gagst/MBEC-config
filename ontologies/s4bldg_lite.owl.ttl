@@ -1,0 +1,642 @@
+﻿@prefix linkml: <https://w3id.org/linkml/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix s4bldg: <https://saref.etsi.org/saref4bldg/> .
+@prefix s4bldg_lite: <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl/> .
+@prefix saref: <https://saref.etsi.org/core/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix unit: <https://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl.owl.ttl> a owl:Ontology ;
+    rdfs:label "s4bldg_lite" .
+
+s4bldg_lite:SemanticDescription a owl:Class ;
+    rdfs:label "SemanticDescription" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom s4bldg:Boiler ;
+            owl:onProperty s4bldg:boilers ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:solarDevices ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom s4bldg:EnergyConversionDevice ;
+            owl:onProperty s4bldg:energyConversionDevices ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom s4bldg:Building ;
+            owl:onProperty s4bldg:buildings ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom s4bldg:SpaceHeater ;
+            owl:onProperty s4bldg:spaceHeaters ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom s4bldg:ElectricAppliance ;
+            owl:onProperty s4bldg:electricAppliances ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom s4bldg:BuildingSpace ;
+            owl:onProperty s4bldg:buildingSpaces ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:flowMeters ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:energyConversionDevices ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:transformers ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom s4bldg:Transformer ;
+            owl:onProperty s4bldg:transformers ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:buildingSpaces ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:electricFlowStorageDevices ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom s4bldg:SolarDevice ;
+            owl:onProperty s4bldg:solarDevices ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom s4bldg:FlowMeter ;
+            owl:onProperty s4bldg:flowMeters ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:buildings ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:spaceHeaters ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:boilers ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom s4bldg:ElectricFlowStorageDevice ;
+            owl:onProperty s4bldg:electricFlowStorageDevices ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:electricAppliances ] ;
+    skos:exactMatch s4bldg:SemanticDescription ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+unit:KiloW a owl:Class ;
+    rdfs:label "KW" ;
+    rdfs:subClassOf s4bldg:Units .
+
+unit:KiloW-HR a owl:Class ;
+    rdfs:label "KWH" ;
+    rdfs:subClassOf s4bldg:Units .
+
+s4bldg:Boiler a owl:Class ;
+    rdfs:label "Boiler" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalEnergyConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:outputCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:outputCapacity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalHeatingCapacity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalEnergyConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalEnergyConsumption ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalHeatingCapacity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:outputCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalHeatingCapacity ],
+        saref:Device ;
+    skos:exactMatch s4bldg:Boiler ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:ElectricAppliance a owl:Class ;
+    rdfs:label "ElectricAppliance" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalEnergyConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalEnergyConsumption ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalPowerConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalPowerConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalEnergyConsumption ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalPowerConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        saref:Device ;
+    skos:exactMatch s4bldg:ElectricAppliance ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:ElectricFlowStorageDevice a owl:Class ;
+    rdfs:label "ElectricFlowStorageDevice" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalPowerConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalPowerConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalEnergyConsumption ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:storageType ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:storageType ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalEnergyConsumption ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty s4bldg:storageType ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalEnergyConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalPowerConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        saref:Device ;
+    skos:exactMatch s4bldg:ElectricFlowStorageDevice ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:EnergyConversionDevice a owl:Class ;
+    rdfs:label "EnergyConversionDevice" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalPowerConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalEnergyConsumption ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:outputCapacity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalEnergyConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalHeatingCapacity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:outputCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalPowerConsumption ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalPowerConsumption ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalHeatingCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:outputCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalEnergyConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalHeatingCapacity ],
+        saref:Device ;
+    skos:exactMatch s4bldg:EnergyConversionDevice ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:FlowMeter a owl:Class ;
+    rdfs:label "FlowMeter" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalEnergyConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalHeatingCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalEnergyConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalPowerConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalPowerConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalHeatingCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalPowerConsumption ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:outputCapacity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalEnergyConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalHeatingCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:outputCapacity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:outputCapacity ],
+        saref:Device ;
+    skos:exactMatch s4bldg:FlowMeter ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:SolarDevice a owl:Class ;
+    rdfs:label "SolarDevice" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        saref:Device ;
+    skos:exactMatch s4bldg:SolarDevice ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:SpaceHeater a owl:Class ;
+    rdfs:label "SpaceHeater" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:outputCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:outputCapacity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:outputCapacity ],
+        saref:Device ;
+    skos:exactMatch s4bldg:SpaceHeater ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:Transformer a owl:Class ;
+    rdfs:label "Transformer" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:primaryApparentPower ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:secondaryApparentPower ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:secondaryApparentPower ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:nominalCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:outputCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:primaryApparentPower ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:outputCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom saref:PropertyValue ;
+            owl:onProperty s4bldg:primaryApparentPower ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:secondaryApparentPower ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:apparentPowerMax ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:outputCapacity ],
+        saref:Device ;
+    skos:exactMatch s4bldg:Transformer ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:boilers a owl:ObjectProperty ;
+    rdfs:label "boilers" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:buildingSpaces a owl:ObjectProperty ;
+    rdfs:label "buildingSpaces" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:buildings a owl:ObjectProperty ;
+    rdfs:label "buildings" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:electricAppliances a owl:ObjectProperty ;
+    rdfs:label "electricAppliances" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:electricFlowStorageDevices a owl:ObjectProperty ;
+    rdfs:label "electricFlowStorageDevices" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:energyConversionDevices a owl:ObjectProperty ;
+    rdfs:label "energyConversionDevices" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:flowMeters a owl:ObjectProperty ;
+    rdfs:label "flowMeters" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:solarDevices a owl:ObjectProperty ;
+    rdfs:label "solarDevices" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:spaceHeaters a owl:ObjectProperty ;
+    rdfs:label "spaceHeaters" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:transformers a owl:ObjectProperty ;
+    rdfs:label "transformers" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+saref:hasValue a owl:DatatypeProperty ;
+    rdfs:label "hasValue" ;
+    rdfs:range xsd:float ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+saref:isMeasuredIn a owl:ObjectProperty ;
+    rdfs:label "isMeasuredIn" ;
+    rdfs:range s4bldg:Units ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:isContainedIn a owl:ObjectProperty ;
+    rdfs:label "isContainedIn" ;
+    rdfs:range s4bldg:BuildingSpace ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:isSpaceOf a owl:ObjectProperty ;
+    rdfs:label "isSpaceOf" ;
+    rdfs:domain s4bldg:BuildingSpace ;
+    rdfs:range s4bldg:Building ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:primaryApparentPower a owl:ObjectProperty ;
+    rdfs:label "primaryApparentPower" ;
+    rdfs:range saref:PropertyValue ;
+    skos:definition "The power in VA (volt ampere) that has been transformed and that runs into the transformer on the primary side.  Usually measured in Watts (W, J/s)." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:secondaryApparentPower a owl:ObjectProperty ;
+    rdfs:label "secondaryApparentPower" ;
+    rdfs:range saref:PropertyValue ;
+    skos:definition "The power in VA (volt ampere) that has been transformed and is running out of the transformer on the secondary side.  Usually measured in Watts (W, J/s)." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:storageType a owl:DatatypeProperty ;
+    rdfs:label "storageType" ;
+    rdfs:range xsd:string ;
+    skos:definition "Defines the general material category intended to be stored." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:Building a owl:Class ;
+    rdfs:label "Building" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom owl:Thing ;
+            owl:onProperty s4bldg:id ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty s4bldg:id ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:id ] ;
+    skos:exactMatch s4bldg:Building ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:Units a owl:Class ;
+    rdfs:label "Units" ;
+    owl:unionOf ( unit:KiloW unit:KiloW-HR ) ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> ;
+    linkml:permissible_values unit:KiloW,
+        unit:KiloW-HR .
+
+s4bldg:BuildingSpace a owl:Class ;
+    rdfs:label "BuildingSpace" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty s4bldg:id ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:id ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:isSpaceOf ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom owl:Thing ;
+            owl:onProperty s4bldg:id ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom s4bldg:Building ;
+            owl:onProperty s4bldg:isSpaceOf ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:isSpaceOf ] ;
+    skos:exactMatch s4bldg:BuildingSpace ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+saref:Device a owl:Class ;
+    rdfs:label "Device" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty s4bldg:id ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:isContainedIn ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty s4bldg:isContainedIn ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom owl:Thing ;
+            owl:onProperty s4bldg:id ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom s4bldg:BuildingSpace ;
+            owl:onProperty s4bldg:isContainedIn ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty s4bldg:id ] ;
+    skos:exactMatch s4bldg:Device ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:id a owl:ObjectProperty ;
+    rdfs:label "id" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:nominalHeatingCapacity a owl:ObjectProperty ;
+    rdfs:label "nominalHeatingCapacity" ;
+    rdfs:range saref:PropertyValue ;
+    skos:definition "Nominal heating capacity. Usually measured in Watts (W, J/s)." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:nominalPowerConsumption a owl:ObjectProperty ;
+    rdfs:label "nominalPowerConsumption" ;
+    rdfs:range saref:PropertyValue ;
+    skos:definition "Nominal total power consumption. Usually measured in Watts (W, J/s)." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:nominalEnergyConsumption a owl:ObjectProperty ;
+    rdfs:label "nominalEnergyConsumption" ;
+    rdfs:range saref:PropertyValue ;
+    skos:definition "Nominal total power consumption. Usually measured in Watts (W, J/s)." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:outputCapacity a owl:ObjectProperty ;
+    rdfs:label "outputCapacity" ;
+    rdfs:range saref:PropertyValue ;
+    skos:definition "Total nominal heat output as listed by the manufacturer. Usually measured in Watts (W, J/s)." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:apparentPowerMax a owl:ObjectProperty ;
+    rdfs:label "apparentPowerMax" ;
+    rdfs:range saref:PropertyValue ;
+    skos:definition "Maximum apparent power/capacity in VA (volt ampere). Usually measured in Watts (W, J/s)." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+s4bldg:nominalCapacity a owl:ObjectProperty ;
+    rdfs:label "nominalCapacity" ;
+    rdfs:range saref:PropertyValue ;
+    skos:definition "Nominal capacity. Usually measured in Watts (W, J/s)." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+saref:PropertyValue a owl:Class ;
+    rdfs:label "PropertyValue" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty saref:hasValue ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty saref:isMeasuredIn ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty saref:isMeasuredIn ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom s4bldg:Units ;
+            owl:onProperty saref:isMeasuredIn ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty saref:hasValue ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty saref:hasValue ] ;
+    skos:exactMatch s4bldg:PropertyValue ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/s4bldg_lite.owl.ttl> .
+
+

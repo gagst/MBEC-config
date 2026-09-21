@@ -1,0 +1,748 @@
+﻿@prefix kees: <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix qudt: <http://qudt.org/2.1/schema/qudt/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl.owl.ttl> a owl:Ontology ;
+    rdfs:label "KEES" .
+
+kees:FixedConsumptionComponent a owl:Class ;
+    rdfs:label "FixedConsumptionComponent" ;
+    rdfs:subClassOf kees:ConsumptionComponent,
+        kees:FixedComponent ;
+    skos:definition "A component that consumes energy from an energy vector and is not controllable. For example, an energy demand when there is no demand side management is implemented." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:FixedGenerationComponent a owl:Class ;
+    rdfs:label "FixedGenerationComponent" ;
+    rdfs:subClassOf kees:FixedComponent,
+        kees:GenerationComponent ;
+    skos:definition "A component that generates energy to one connected energy vector and is not controllable.  For example, a PV might have a forecast for the next 24 hours." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:FlexibleConsumptionComponent a owl:Class ;
+    rdfs:label "FlexibleConsumptionComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasMaxConsumption ],
+        kees:ConsumptionComponent,
+        kees:FlexibleComponent ;
+    skos:definition "A controllable component that consumes energy from one connected energy vector.  Its consumption can be controlled within a given bound." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:FlexibleGenerationComponent a owl:Class ;
+    rdfs:label "FlexibleGenerationComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasMaxGeneration ],
+        kees:FlexibleComponent,
+        kees:GenerationComponent ;
+    skos:definition "A component that generates energy to one connected energy vector.  Its generation can be controlled within a given bound" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:InterconnectorComponent a owl:Class ;
+    rdfs:label "InterconnectorComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasEfficiency ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasEfficiency ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasEfficiency ],
+        kees:ConsumptionComponent,
+        kees:GenerationComponent ;
+    skos:definition "A controllable component that consumes energy from one energy vector, transforms it with given efficiency, and generates the energy to another connected energy vector. For instance, heat pump or electrical transformer." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:MultiValueParameter a owl:Class ;
+    rdfs:label "MultiValueParameter" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasValue ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom owl:Thing ;
+            owl:onProperty kees:hasValue ],
+        kees:Parameter ;
+    skos:definition "A parameter that contains more that one parameter value." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasConsumption a owl:ObjectProperty ;
+    rdfs:label "hasConsumption" ;
+    rdfs:range kees:Parameter ;
+    skos:definition "Output of the energy scheduler containing scheduled consumption for the component." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+qudt:QuantityKind a owl:Class ;
+    rdfs:label "QuantityKind" ;
+    skos:exactMatch kees:QuantityKind ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+qudt:Unit a owl:Class ;
+    rdfs:label "Unit" ;
+    skos:exactMatch kees:Unit ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:FixedComponent a owl:Class ;
+    rdfs:label "FixedComponent" ;
+    rdfs:subClassOf kees:Component ;
+    skos:definition "A component that is not controllable." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+qudt:hasQuantityKind a owl:ObjectProperty ;
+    rdfs:label "hasQuantityKind" ;
+    rdfs:domain kees:Parameter ;
+    rdfs:range qudt:QuantityKind ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+qudt:hasUnit a owl:ObjectProperty ;
+    rdfs:label "hasUnit" ;
+    rdfs:domain kees:ParameterValue ;
+    rdfs:range qudt:Unit ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+qudt:numericValue a owl:DatatypeProperty ;
+    rdfs:label "numericValue" ;
+    rdfs:domain kees:ParameterValue ;
+    rdfs:range xsd:float ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:ParameterValue a owl:Class ;
+    rdfs:label "ParameterValue" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty qudt:hasUnit ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty qudt:numericValue ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty qudt:hasUnit ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom qudt:Unit ;
+            owl:onProperty qudt:hasUnit ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty qudt:numericValue ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:forTimestep ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Timestep ;
+            owl:onProperty kees:forTimestep ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:forTimestep ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty qudt:numericValue ] ;
+    skos:definition "A parameter consists of one or multiple ParameterValues. They are unique in their value and timestep.  The parameter contains the metadata that is the same for all ParameterValues,  such as the component they are given for and their qudt:QuantityKind." ;
+    skos:exactMatch qudt:QuantityValue ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:StorageComponent a owl:Class ;
+    rdfs:label "StorageComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasMaxCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasInitialCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasEfficiency ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:SingleValueParameter ;
+            owl:onProperty kees:hasInitialCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasSelfDischarge ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasSelfDischarge ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasEfficiency ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasSelfDischarge ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasEfficiency ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasInitialCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasMaxCapacity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasMaxCapacity ],
+        kees:ConsumptionComponent,
+        kees:GenerationComponent ;
+    skos:definition "A component that can store energy and can consume and generate from/to an energy vector, e.g. a battery storage system." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:TimeFlexibleConsumptionComponent a owl:Class ;
+    rdfs:label "TimeFlexibleConsumptionComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasFlexiblePeriodEnd ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasFlexiblePeriodStart ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Timestep ;
+            owl:onProperty kees:hasFlexiblePeriodEnd ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasFlexiblePeriodStart ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasEnergyRequirement ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Timestep ;
+            owl:onProperty kees:hasFlexiblePeriodStart ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasFlexiblePeriodEnd ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasEnergyRequirement ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:SingleValueParameter ;
+            owl:onProperty kees:hasEnergyRequirement ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasMaxConsumption ],
+        kees:ConsumptionComponent,
+        kees:FlexibleComponent ;
+    skos:definition "Time-flexible consumption component consumes energy only between given time frame.  Washing machines or other flexible appliances are examples of assets that can be represented by the component." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:forTimestep a owl:ObjectProperty ;
+    rdfs:label "forTimestep" ;
+    rdfs:range kees:Timestep ;
+    skos:definition "Indicates that the concept is relevant for the selected timestep." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:fromDateTime a owl:DatatypeProperty ;
+    rdfs:label "fromDateTime" ;
+    rdfs:domain kees:Timestep ;
+    rdfs:range xsd:dateTime ;
+    skos:definition "Indicates the datetime of the beginning of the timestep." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasConsumptionVector a owl:ObjectProperty ;
+    rdfs:label "hasConsumptionVector" ;
+    rdfs:domain kees:ConsumptionComponent ;
+    rdfs:range kees:EnergyVector ;
+    skos:definition "Connected energy vector from which the component consumes energy." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasCost a owl:ObjectProperty ;
+    rdfs:label "hasCost" ;
+    rdfs:domain kees:FlexibleComponent ;
+    rdfs:range kees:Parameter ;
+    skos:definition "Cost of producing or consuming one unit of power/energy by the component." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasCostObjectiveWeight a owl:DatatypeProperty ;
+    rdfs:label "hasCostObjectiveWeight" ;
+    rdfs:domain kees:SchedulerRun ;
+    rdfs:range xsd:float ;
+    skos:definition "Relative weight for the cost minimization (and revenue maximization) objective in multi-objective function." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasEmission a owl:ObjectProperty ;
+    rdfs:label "hasEmission" ;
+    rdfs:domain kees:FlexibleComponent ;
+    rdfs:range kees:Parameter ;
+    skos:definition "Emitted emissions corresponding to production or consumption of one unit of power/energy by the component." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasEmissionsObjectiveWeight a owl:DatatypeProperty ;
+    rdfs:label "hasEmissionsObjectiveWeight" ;
+    rdfs:domain kees:SchedulerRun ;
+    rdfs:range xsd:float ;
+    skos:definition "Relative weight for the emissions minimization objective in multi-objective function." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasEnergyRequirement a owl:ObjectProperty ;
+    rdfs:label "hasEnergyRequirement" ;
+    rdfs:domain kees:TimeFlexibleConsumptionComponent ;
+    rdfs:range kees:SingleValueParameter ;
+    skos:definition "Number indicating how much energy should be consumed by the component in given flexibility period." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasExternalConsumptionObjectiveWeight a owl:DatatypeProperty ;
+    rdfs:label "hasExternalConsumptionObjectiveWeight" ;
+    rdfs:domain kees:SchedulerRun ;
+    rdfs:range xsd:float ;
+    skos:definition "Relative weight for the minimization of consumption from external components in multi-objective function." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasExternalGenerationObjectiveWeight a owl:DatatypeProperty ;
+    rdfs:label "hasExternalGenerationObjectiveWeight" ;
+    rdfs:domain kees:SchedulerRun ;
+    rdfs:range xsd:float ;
+    skos:definition "Relative weight for the minimization of generation from external components in multi-objective function." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasFlexiblePeriodEnd a owl:ObjectProperty ;
+    rdfs:label "hasFlexiblePeriodEnd" ;
+    rdfs:domain kees:TimeFlexibleConsumptionComponent ;
+    rdfs:range kees:Timestep ;
+    skos:definition "Timestep until which the component can consume energy." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasFlexiblePeriodStart a owl:ObjectProperty ;
+    rdfs:label "hasFlexiblePeriodStart" ;
+    rdfs:domain kees:TimeFlexibleConsumptionComponent ;
+    rdfs:range kees:Timestep ;
+    skos:definition "Timestep from which the component can consume energy." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasGenerationVector a owl:ObjectProperty ;
+    rdfs:label "hasGenerationVector" ;
+    rdfs:domain kees:GenerationComponent ;
+    rdfs:range kees:EnergyVector ;
+    skos:definition "Connected energy vector to which the component generates energy." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasIndex a owl:DatatypeProperty ;
+    rdfs:label "hasIndex" ;
+    rdfs:domain kees:Timestep ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:intersectionOf ( xsd:integer [ a rdfs:Datatype ;
+                        owl:onDatatype xsd:integer ;
+                        owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
+    skos:definition "Integer index of the timestep (always increasing, unique integer value, assigned chronologically to timesteps)." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasInitialCapacity a owl:ObjectProperty ;
+    rdfs:label "hasInitialCapacity" ;
+    rdfs:domain kees:StorageComponent ;
+    rdfs:range kees:SingleValueParameter ;
+    skos:definition "Number indicating initial capacity of the storage, before first timestep." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasMaxCapacity a owl:ObjectProperty ;
+    rdfs:label "hasMaxCapacity" ;
+    rdfs:domain kees:StorageComponent ;
+    rdfs:range kees:Parameter ;
+    skos:definition "Number indicating maximum capacity of the storage." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasRevenue a owl:ObjectProperty ;
+    rdfs:label "hasRevenue" ;
+    rdfs:domain kees:FlexibleComponent ;
+    rdfs:range kees:Parameter ;
+    skos:definition "Revenue received by producing or consuming one unit of power/energy by the component." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasSchedulingHorizonLength a owl:DatatypeProperty ;
+    rdfs:label "hasSchedulingHorizonLength" ;
+    rdfs:domain kees:SchedulerRun ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:intersectionOf ( xsd:integer [ a rdfs:Datatype ;
+                        owl:onDatatype xsd:integer ;
+                        owl:withRestrictions ( [ xsd:minInclusive 1 ] ) ] ) ] ;
+    skos:definition "Number of considered timesteps." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasSelfDischarge a owl:ObjectProperty ;
+    rdfs:label "hasSelfDischarge" ;
+    rdfs:domain kees:StorageComponent ;
+    rdfs:range kees:Parameter ;
+    skos:definition "Number indicating the fraction of charge lost at each timestep." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasTimestepDuration a owl:ObjectProperty ;
+    rdfs:label "hasTimestepDuration" ;
+    rdfs:domain kees:SchedulerRun ;
+    rdfs:range kees:Timestep ;
+    skos:definition "Duration of the timestep." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:isExternal a owl:DatatypeProperty ;
+    rdfs:label "isExternal" ;
+    rdfs:domain kees:Component ;
+    rdfs:range xsd:boolean ;
+    skos:definition "Boolean that indicates if the component is considered external or not." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:tillDateTime a owl:DatatypeProperty ;
+    rdfs:label "tillDateTime" ;
+    rdfs:domain kees:Timestep ;
+    rdfs:range xsd:dateTime ;
+    skos:definition "Indicates the last datetime of the timestep." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:EnergyVector a owl:Class ;
+    rdfs:label "EnergyVector" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty rdfs:label ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty rdfs:label ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees:forRun ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty rdfs:label ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:SchedulerRun ;
+            owl:onProperty kees:forRun ] ;
+    skos:definition "Energy vector represents the infrastructure of the building that can be used to transfer energy between different components. The components can generate and consume energy to and from connected energy vectors." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:SingleValueParameter a owl:Class ;
+    rdfs:label "SingleValueParameter" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasValue ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom owl:Thing ;
+            owl:onProperty kees:hasValue ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasValue ],
+        kees:Parameter ;
+    skos:definition "A parameter that contains only one parameter value (value is constant over all timesteps)." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasValue a owl:ObjectProperty ;
+    rdfs:label "hasValue" ;
+    rdfs:domain kees:Parameter ;
+    rdfs:range kees:ParameterValue ;
+    skos:definition "Connects Parameter and ParameterValue. Note that a Parameter can have multiple values, thus multiple hasValue properties." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+rdfs:label a owl:DatatypeProperty ;
+    rdfs:label "name" ;
+    rdfs:range xsd:string ;
+    skos:definition "String with short human-readable name of the component." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:Component a owl:Class ;
+    rdfs:label "Component" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:boolean ;
+            owl:onProperty kees:isExternal ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees:forRun ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:isExternal ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty rdfs:label ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty rdfs:label ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:SchedulerRun ;
+            owl:onProperty kees:forRun ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:isExternal ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty rdfs:label ] ;
+    skos:definition "A component is a representation of one or multiple physical assets. They are connected to at least one energy vector and can consume energy from a vector or generate energy to a vector." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:FlexibleComponent a owl:Class ;
+    rdfs:label "FlexibleComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasCost ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasRevenue ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasEmission ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasEmission ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees:hasCost ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasCost ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees:hasRevenue ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasRevenue ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees:hasEmission ],
+        kees:Component ;
+    skos:definition "A component that is controllable. Its generation or consumption can be adjusted within some bounds." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:GenerationComponent a owl:Class ;
+    rdfs:label "GenerationComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasGeneration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasGeneration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:EnergyVector ;
+            owl:onProperty kees:hasGenerationVector ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasGeneration ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasGenerationVector ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasGenerationVector ],
+        kees:Component ;
+    skos:definition "A component that generates energy to an energy vector." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:forRun a owl:ObjectProperty ;
+    rdfs:label "forRun" ;
+    rdfs:range kees:SchedulerRun ;
+    skos:definition "Indicates that the concept is relevant for the selected optimization run." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasEfficiency a owl:ObjectProperty ;
+    rdfs:label "hasEfficiency" ;
+    rdfs:domain kees:Component ;
+    rdfs:range kees:Parameter ;
+    skos:definition "Number indicating the efficiency of the energy conversion." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasGeneration a owl:ObjectProperty ;
+    rdfs:label "hasGeneration" ;
+    rdfs:range kees:Parameter ;
+    skos:definition "Output of the energy scheduler containing scheduled generation for the component." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:ConsumptionComponent a owl:Class ;
+    rdfs:label "ConsumptionComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasConsumptionVector ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:EnergyVector ;
+            owl:onProperty kees:hasConsumptionVector ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Parameter ;
+            owl:onProperty kees:hasGeneration ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasGeneration ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasConsumptionVector ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasGeneration ],
+        kees:Component ;
+    skos:definition "A component that consumes energy from an energy vector." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasMaxGeneration a owl:ObjectProperty ;
+    rdfs:label "hasMaxGeneration" ;
+    rdfs:domain kees:GenerationComponent ;
+    rdfs:range kees:Parameter ;
+    skos:definition "Number indicating maximum energy generation in the connected energy vector." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:SchedulerRun a owl:Class ;
+    rdfs:label "SchedulerRun" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasEmissionsObjectiveWeight ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasSchedulingHorizonLength ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasTimestepDuration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:intersectionOf ( xsd:integer [ a rdfs:Datatype ;
+                                owl:onDatatype xsd:integer ;
+                                owl:withRestrictions ( [ xsd:minInclusive 1 ] ) ] ) ] ;
+            owl:onProperty kees:hasSchedulingHorizonLength ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees:hasEmissionsObjectiveWeight ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees:hasExternalGenerationObjectiveWeight ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasEmissionsObjectiveWeight ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasExternalGenerationObjectiveWeight ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasCostObjectiveWeight ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasExternalConsumptionObjectiveWeight ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees:hasExternalConsumptionObjectiveWeight ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasSchedulingHorizonLength ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:Timestep ;
+            owl:onProperty kees:hasTimestepDuration ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasExternalGenerationObjectiveWeight ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasTimestepDuration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees:hasCostObjectiveWeight ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasExternalConsumptionObjectiveWeight ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasCostObjectiveWeight ] ;
+    skos:definition "Scheduler run contains the information about the scheduler parameters, such as objective weights, scheduling horizon, the date of the first timestep.  The components and energy vectors can be created specifically for a scheduler run." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:Timestep a owl:Class ;
+    rdfs:label "Timestep" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees:fromDateTime ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:dateTime ;
+            owl:onProperty kees:fromDateTime ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees:SchedulerRun ;
+            owl:onProperty kees:forRun ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:intersectionOf ( xsd:integer [ a rdfs:Datatype ;
+                                owl:onDatatype xsd:integer ;
+                                owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] ) ] ;
+            owl:onProperty kees:hasIndex ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees:forRun ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:tillDateTime ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:fromDateTime ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees:hasIndex ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:dateTime ;
+            owl:onProperty kees:tillDateTime ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees:tillDateTime ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees:hasIndex ] ;
+    skos:definition "Timestep of the scheduling horizon. The mapping between real datetime  and timesteps can be provided using properties of the class." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:hasMaxConsumption a owl:ObjectProperty ;
+    rdfs:label "hasMaxConsumption" ;
+    rdfs:domain kees:ConsumptionComponent ;
+    rdfs:range kees:Parameter ;
+    skos:definition "Number indicating maximum energy consumption from the connected energy vector." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+kees:Parameter a owl:Class ;
+    rdfs:label "Parameter" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty qudt:hasQuantityKind ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom qudt:QuantityKind ;
+            owl:onProperty qudt:hasQuantityKind ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty qudt:hasQuantityKind ] ;
+    skos:definition "A parameter represents data received by the scheduler service. A parameter consists of one or multiple ParameterValues that are usually unique in their timestep and can have different values.  The parameter contains the metadata that is the same for all ParameterValues,  such as the component they are given for and their qudt:QuantityKind." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl> .
+
+

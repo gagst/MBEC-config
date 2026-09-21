@@ -1,0 +1,5 @@
+# Parameters for graph configuration by rule engines
+
+S4BLDGRuleGraphConfigurator:
+
+BrickRuleGraphConfigurator:

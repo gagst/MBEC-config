@@ -1,0 +1,503 @@
+﻿@prefix kees_lite: <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl.owl.ttl> a owl:Ontology ;
+    rdfs:label "KEES_lite" .
+
+kees_lite:Graph a owl:Class ;
+    rdfs:label "Graph" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:TimeFlexibleConsumptionComponent ;
+            owl:onProperty kees_lite:timeFlexibleConsumptions ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:FixedGenerationComponent ;
+            owl:onProperty kees_lite:fixedGenerations ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:storages ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:flexibleGenerations ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:flexibleConsumptions ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:FixedConsumptionComponent ;
+            owl:onProperty kees_lite:fixedConsumptions ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:fixedGenerations ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:interconnectors ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:fixedConsumptions ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:EnergyVector ;
+            owl:onProperty kees_lite:energyVectors ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:timeFlexibleConsumptions ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:FlexibleConsumptionComponent ;
+            owl:onProperty kees_lite:flexibleConsumptions ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:energyVectors ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:StorageComponent ;
+            owl:onProperty kees_lite:storages ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:FlexibleGenerationComponent ;
+            owl:onProperty kees_lite:flexibleGenerations ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:InterconnectorComponent ;
+            owl:onProperty kees_lite:interconnectors ] ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:FixedConsumptionComponent a owl:Class ;
+    rdfs:label "FixedConsumptionComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasConsumptionVector ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasConsumptionVector ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:EnergyVector ;
+            owl:onProperty kees_lite:hasConsumptionVector ],
+        kees_lite:Component ;
+    skos:definition "A component that consumes energy from an energy vector and is not controllable. For example, an energy demand when there is no demand side management is implemented." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:FixedGenerationComponent a owl:Class ;
+    rdfs:label "FixedGenerationComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasGenerationVector ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:EnergyVector ;
+            owl:onProperty kees_lite:hasGenerationVector ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasGenerationVector ],
+        kees_lite:Component ;
+    skos:definition "A component that generates energy to one connected energy vector and is not controllable.  For example, a PV might have a forecast for the next 24 hours." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:FlexibleConsumptionComponent a owl:Class ;
+    rdfs:label "FlexibleConsumptionComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:EnergyVector ;
+            owl:onProperty kees_lite:hasConsumptionVector ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasConsumptionVector ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasConsumptionVector ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees_lite:hasMaxConsumption ],
+        kees_lite:Component ;
+    skos:definition "A controllable component that consumes energy from one connected energy vector.  Its consumption can be controlled within a given bound." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:FlexibleGenerationComponent a owl:Class ;
+    rdfs:label "FlexibleGenerationComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasGenerationVector ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasGenerationVector ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:EnergyVector ;
+            owl:onProperty kees_lite:hasGenerationVector ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees_lite:hasMaxGeneration ],
+        kees_lite:Component ;
+    skos:definition "A component that generates energy to one connected energy vector.  Its generation can be controlled within a given bound" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:InterconnectorComponent a owl:Class ;
+    rdfs:label "InterconnectorComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees_lite:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasGenerationVector ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees_lite:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasGenerationVector ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasConsumptionVector ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:EnergyVector ;
+            owl:onProperty kees_lite:hasConsumptionVector ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees_lite:hasEfficiency ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasEfficiency ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:EnergyVector ;
+            owl:onProperty kees_lite:hasGenerationVector ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasConsumptionVector ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasEfficiency ],
+        kees_lite:Component ;
+    skos:definition "A controllable component that consumes energy from one energy vector, transforms it with given efficiency, and generates the energy to another connected energy vector. For instance, heat pump or electrical transformer." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:energyVectors a owl:ObjectProperty ;
+    rdfs:label "energyVectors" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:fixedConsumptions a owl:ObjectProperty ;
+    rdfs:label "fixedConsumptions" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:fixedGenerations a owl:ObjectProperty ;
+    rdfs:label "fixedGenerations" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:flexibleConsumptions a owl:ObjectProperty ;
+    rdfs:label "flexibleConsumptions" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:flexibleGenerations a owl:ObjectProperty ;
+    rdfs:label "flexibleGenerations" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:interconnectors a owl:ObjectProperty ;
+    rdfs:label "interconnectors" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:storages a owl:ObjectProperty ;
+    rdfs:label "storages" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:timeFlexibleConsumptions a owl:ObjectProperty ;
+    rdfs:label "timeFlexibleConsumptions" ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:hasEnergyRequirement a owl:DatatypeProperty ;
+    rdfs:label "hasEnergyRequirement" ;
+    rdfs:domain kees_lite:TimeFlexibleConsumptionComponent ;
+    rdfs:range xsd:float ;
+    skos:definition "number indicating how much energy should be consumed by the component in given flexibility period in kWh." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:hasFlexiblePeriodEnd a owl:DatatypeProperty ;
+    rdfs:label "hasFlexiblePeriodEnd" ;
+    rdfs:domain kees_lite:TimeFlexibleConsumptionComponent ;
+    rdfs:range xsd:string ;
+    skos:definition "time of the day until which the component can consume energy." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:hasFlexiblePeriodStart a owl:DatatypeProperty ;
+    rdfs:label "hasFlexiblePeriodStart" ;
+    rdfs:domain kees_lite:TimeFlexibleConsumptionComponent ;
+    rdfs:range xsd:string ;
+    skos:definition "time of the day from which the component can consume energy." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:hasInitialCapacity a owl:DatatypeProperty ;
+    rdfs:label "hasInitialCapacity" ;
+    rdfs:domain kees_lite:StorageComponent ;
+    rdfs:range xsd:float ;
+    skos:definition "number indicating initial capacity of the storage, before first timestep in kWh." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:hasMaxCapacity a owl:DatatypeProperty ;
+    rdfs:label "hasMaxCapacity" ;
+    rdfs:domain kees_lite:StorageComponent ;
+    rdfs:range xsd:float ;
+    skos:definition "number indicating maximum capacity of the storage in kWh." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:hasSelfDischarge a owl:DatatypeProperty ;
+    rdfs:label "hasSelfDischarge" ;
+    rdfs:domain kees_lite:StorageComponent ;
+    rdfs:range xsd:float ;
+    skos:definition "number indicating the fraction of charge lost at each time step." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:isExternal a owl:DatatypeProperty ;
+    rdfs:label "isExternal" ;
+    rdfs:domain kees_lite:Component ;
+    rdfs:range xsd:boolean ;
+    skos:definition "boolean that indicates if the component is considered external or not." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:StorageComponent a owl:Class ;
+    rdfs:label "StorageComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasGenerationVector ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasGenerationVector ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:EnergyVector ;
+            owl:onProperty kees_lite:hasConsumptionVector ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees_lite:hasMaxCapacity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasInitialCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasSelfDischarge ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees_lite:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasMaxCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:EnergyVector ;
+            owl:onProperty kees_lite:hasGenerationVector ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees_lite:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasEfficiency ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasSelfDischarge ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasMaxGeneration ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasInitialCapacity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasEfficiency ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees_lite:hasSelfDischarge ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasMaxCapacity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees_lite:hasInitialCapacity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasConsumptionVector ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees_lite:hasEfficiency ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasConsumptionVector ],
+        kees_lite:Component ;
+    skos:definition "A component that can store energy and can consume and generate from/to an energy vector, e.g. a battery storage system." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:TimeFlexibleConsumptionComponent a owl:Class ;
+    rdfs:label "TimeFlexibleConsumptionComponent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty kees_lite:hasFlexiblePeriodStart ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasFlexiblePeriodStart ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasEnergyRequirement ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty kees_lite:hasFlexiblePeriodEnd ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasFlexiblePeriodEnd ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasEnergyRequirement ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasFlexiblePeriodEnd ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees_lite:hasEnergyRequirement ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasConsumptionVector ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:hasFlexiblePeriodStart ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:float ;
+            owl:onProperty kees_lite:hasMaxConsumption ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom kees_lite:EnergyVector ;
+            owl:onProperty kees_lite:hasConsumptionVector ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:hasConsumptionVector ],
+        kees_lite:Component ;
+    skos:definition "Time-flexible consumption component consumes energy only between given time frame.  Washing machines or other flexible appliances are examples of assets that can be represented by the component." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:hasEfficiency a owl:DatatypeProperty ;
+    rdfs:label "hasEfficiency" ;
+    rdfs:domain kees_lite:Component ;
+    rdfs:range xsd:float ;
+    skos:definition "number indicating the efficiency of the energy conversion." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:name a owl:DatatypeProperty ;
+    rdfs:label "name" ;
+    rdfs:range xsd:string ;
+    skos:definition "string with short unique human-readable name of the component." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:originalName a owl:DatatypeProperty ;
+    rdfs:label "originalName" ;
+    rdfs:range xsd:string ;
+    skos:definition "string with the name assigned by configurator (should be ignored in most cases)." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:hasMaxGeneration a owl:DatatypeProperty ;
+    rdfs:label "hasMaxGeneration" ;
+    rdfs:domain kees_lite:Component ;
+    rdfs:range xsd:float ;
+    skos:definition "number indicating maximum energy generation in the connected energy vector in kW." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:EnergyVector a owl:Class ;
+    rdfs:label "EnergyVector" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty kees_lite:name ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:originalName ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty kees_lite:originalName ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty kees_lite:name ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:originalName ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:name ] ;
+    skos:definition "Energy vector represents the infrastructure of the building that can be used to transfer energy between different components. The components can generate and consume energy to and from connected energy vectors." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:hasGenerationVector a owl:ObjectProperty ;
+    rdfs:label "hasGenerationVector" ;
+    rdfs:domain kees_lite:Component ;
+    rdfs:range kees_lite:EnergyVector ;
+    skos:definition "connected energy vector to which the component generates energy." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:hasMaxConsumption a owl:DatatypeProperty ;
+    rdfs:label "hasMaxConsumption" ;
+    rdfs:domain kees_lite:Component ;
+    rdfs:range xsd:float ;
+    skos:definition "number indicating maximum energy consumption from the connected energy vector in kW." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:Component a owl:Class ;
+    rdfs:label "Component" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:boolean ;
+            owl:onProperty kees_lite:isExternal ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty kees_lite:originalName ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:originalName ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:isExternal ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty kees_lite:name ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:isExternal ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:name ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty kees_lite:originalName ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty kees_lite:name ] ;
+    skos:definition "A component is a representation of one or multiple physical assets. They are connected to at least one energy vector and can consume energy from a vector or generate energy to a vector." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+kees_lite:hasConsumptionVector a owl:ObjectProperty ;
+    rdfs:label "hasConsumptionVector" ;
+    rdfs:domain kees_lite:Component ;
+    rdfs:range kees_lite:EnergyVector ;
+    skos:definition "connected energy vector from which the component consumes energy." ;
+    skos:inScheme <https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl> .
+
+

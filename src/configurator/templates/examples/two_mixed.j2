@@ -1,0 +1,55 @@
+{% set text %}
+The community of the buildings contains 2 buildings. Each building has its own meter measuring electrical consumption and another meter measuring heating consumption. 
+Buildings "alice" and "bob" have an electrical connection to a national electric grid. The national electric grid connection allows for importing 20 kW and exporting 100 kW of electricity. 
+Building "alice" has a connection to district heating. The district heating connection allows for importing 50 kW and exporting 140 kW of heat. 
+Building "bob" has a connection to a boiler. The maximum generation of the boiler installed in the building "bob" is 104 kW.
+{% endset %}
+
+{% set rdf %}
+@prefix s4bldg: <https://saref.etsi.org/saref4bldg/v2.1.1/> .
+@prefix s4bldg_lite: <https://github.com/gagst/s4bldg_lite> .
+s4bldg_lite:a-boiler-tom a s4bldg:Boiler ;
+    s4bldg:isContainedIn s4bldg_lite:space-bob ;
+    s4bldg:outputCapacity "104 kW" .
+s4bldg_lite:a-national-electric-grid-tamarin a s4bldg:FlowMeter ;
+    s4bldg:apparentPowerMax "100 kW",
+        "20 kW" .
+s4bldg_lite:district-heating-tuna a s4bldg:FlowMeter ;
+    s4bldg:isContainedIn s4bldg_lite:space-alice ;
+    s4bldg:nominalCapacity "140 kW",
+        "50 kW" .
+s4bldg_lite:toucan a s4bldg:FlowMeter ;
+    s4bldg:isContainedIn s4bldg_lite:space-alice .
+s4bldg_lite:trout a s4bldg:FlowMeter ;
+    s4bldg:isContainedIn s4bldg_lite:space-bob .
+s4bldg_lite:wolverine a s4bldg:FlowMeter ;
+    s4bldg:isContainedIn s4bldg_lite:space-bob .
+s4bldg_lite:zebrafish a s4bldg:ElectricAppliance ;
+    s4bldg:isContainedIn s4bldg_lite:space-alice .
+s4bldg_lite:building-alice a s4bldg:Building .
+s4bldg_lite:building-bob a s4bldg:Building .
+s4bldg_lite:space-alice a s4bldg:BuildingSpace ;
+    s4bldg:isSpaceOf s4bldg_lite:building-alice .
+s4bldg_lite:space-bob a s4bldg:BuildingSpace ;
+    s4bldg:isSpaceOf s4bldg_lite:building-bob .
+{% endset %}
+
+
+{% if configurator.input_source_is_text %}Text: {{- text | replace('\n', ' ') | trim }}{% else %}RDF data: {{ rdf }}{% endif %}
+{% if for_vector %}
+Answer: ["electricity", "purple", "red"]
+{% elif for_component and component_type == component_type_enum.FIXED_GENERATION %}
+Answer: []
+{% elif for_component and component_type == component_type_enum.FIXED_CONSUMPTION %}
+Answer: [{ "name": "toucan", "hasConsumptionVector": "purple" }, { "name": "trout", "hasConsumptionVector": "electricity" }, { "name": "wolverine", "hasConsumptionVector": "red" }, { "name": "zebrafish", "hasConsumptionVector": "electricity" }]
+{% elif for_component and component_type == component_type_enum.FLEXIBLE_GENERATION %}
+Answer: [{ "name": "tamarin", "hasGenerationVector": "electricity",  "hasMaxGeneration": 20 }, { "name": "tom", "hasGenerationVector": "red",  "hasMaxGeneration": 104 }, { "name": "tuna", "hasGenerationVector": "purple",  "hasMaxGeneration": 50 }]
+{% elif for_component and component_type == component_type_enum.FLEXIBLE_CONSUMPTION %}
+Answer: [{ "name": "tamarin", "hasConsumptionVector": "electricity",  "hasMaxConsumption": 100 }, { "name": "tuna", "hasConsumptionVector": "purple",  "hasMaxConsumption": 140 }]
+{% elif for_component and component_type == component_type_enum.TIME_FLEXIBLE_CONSUMPTION %}
+Answer: []
+{% elif for_component and component_type == component_type_enum.STORAGE %}
+Answer: []
+{% elif for_component and component_type == component_type_enum.INTERCONNECTOR %}
+Answer: []
+{% endif %}

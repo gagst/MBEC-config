@@ -1,0 +1,72 @@
+LLMGraphConfigurator:
+  configurators:
+    - type: ollama
+      model: gpt-oss:120b-cloud
+      think: true
+      input_source: text
+      prompt_with_examples: false
+      temperature: 1
+      seed: 0
+    - type: ollama
+      model: gpt-oss:120b-cloud
+      think: true
+      input_source: brick
+      prompt_with_examples: false
+      temperature: 1
+      seed: 0
+    - type: ollama
+      model: gpt-oss:120b-cloud
+      think: true
+      input_source: brick_anon
+      prompt_with_examples: false
+      temperature: 1
+      seed: 0
+    - type: ollama
+      model: gpt-oss:120b-cloud
+      think: true
+      input_source: s4bldg
+      prompt_with_examples: false
+      temperature: 1
+      seed: 0
+    - type: ollama
+      model: gpt-oss:120b-cloud
+      think: true
+      input_source: s4bldg_anon
+      prompt_with_examples: false
+      temperature: 1
+      seed: 0
+    - type: ollama
+      model: gpt-oss:120b-cloud
+      think: true
+      input_source: text
+      prompt_with_examples: true
+      temperature: 1
+      seed: 0
+    - type: ollama
+      model: gpt-oss:120b-cloud
+      think: true
+      input_source: brick
+      prompt_with_examples: true
+      temperature: 1
+      seed: 0
+    - type: ollama
+      model: gpt-oss:120b-cloud
+      think: true
+      input_source: brick_anon
+      prompt_with_examples: true
+      temperature: 1
+      seed: 0
+    - type: ollama
+      model: gpt-oss:120b-cloud
+      think: true
+      input_source: s4bldg
+      prompt_with_examples: true
+      temperature: 1
+      seed: 0
+    - type: ollama
+      model: gpt-oss:120b-cloud
+      think: true
+      input_source: s4bldg_anon
+      prompt_with_examples: true
+      temperature: 1
+      seed: 0

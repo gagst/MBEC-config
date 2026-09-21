@@ -1,0 +1,206 @@
+id: https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl
+name: KEES_lite
+imports:
+  - linkml:types
+prefixes:
+  linkml: https://w3id.org/linkml/
+  kees_lite: https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees_lite.owl.ttl/
+default_prefix: kees_lite
+
+classes:
+  Graph:
+    tree_root: true
+    attributes:
+      energyVectors:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: EnergyVector
+      fixedGenerations:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: FixedGenerationComponent
+      fixedConsumptions:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: FixedConsumptionComponent
+      flexibleGenerations:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: FlexibleGenerationComponent
+      flexibleConsumptions:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: FlexibleConsumptionComponent
+      timeFlexibleConsumptions:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: TimeFlexibleConsumptionComponent
+      interconnectors:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: InterconnectorComponent
+      storages:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: StorageComponent
+  EnergyVector:
+    description: >-
+      Energy vector represents the infrastructure of the building that can be used to transfer energy between different components.
+      The components can generate and consume energy to and from connected energy vectors.
+    slots:
+      - name
+      - originalName
+    slot_usage:
+      name:
+        required: true
+        identifier: true
+  Component:
+    description: >-
+      A component is a representation of one or multiple physical assets. They are connected to at least one energy vector
+      and can consume energy from a vector or generate energy to a vector.
+    slots:
+      - name
+      - originalName
+      - isExternal
+  FixedConsumptionComponent:
+    is_a: Component
+    description: >-
+      A component that consumes energy from an energy vector and is not controllable.
+      For example, an energy demand when there is no demand side management is implemented.
+    slots:
+      - hasConsumptionVector
+  FixedGenerationComponent:
+    is_a: Component
+    description: >-
+      A component that generates energy to one connected energy vector and is not controllable. 
+      For example, a PV might have a forecast for the next 24 hours.
+    slots:
+      - hasGenerationVector
+  FlexibleConsumptionComponent:
+    is_a: Component
+    description: >-
+      A controllable component that consumes energy from one connected energy vector. 
+      Its consumption can be controlled within a given bound.
+    slots:
+      - hasConsumptionVector
+      - hasMaxConsumption
+  TimeFlexibleConsumptionComponent:
+    is_a: Component
+    description: >-
+      Time-flexible consumption component consumes energy only between given time frame. 
+      Washing machines or other flexible appliances are examples of assets that can be represented by the component.
+    slots:
+      - hasConsumptionVector
+      - hasMaxConsumption
+      - hasEnergyRequirement
+      - hasFlexiblePeriodStart
+      - hasFlexiblePeriodEnd
+  FlexibleGenerationComponent:
+    is_a: Component
+    description: >-
+      A component that generates energy to one connected energy vector. 
+      Its generation can be controlled within a given bound
+    slots:
+      - hasGenerationVector
+      - hasMaxGeneration
+  InterconnectorComponent:
+    is_a: Component
+    description: >-
+      A controllable component that consumes energy from one energy vector, transforms it with given efficiency,
+      and generates the energy to another connected energy vector. For instance, heat pump or electrical transformer.
+    slots:
+      - hasGenerationVector
+      - hasConsumptionVector
+      - hasMaxGeneration
+      - hasMaxConsumption
+      - hasEfficiency
+  StorageComponent:
+    is_a: Component
+    description: >-
+      A component that can store energy and can consume and generate from/to an energy vector, e.g. a battery storage system.
+    slots:
+      - hasGenerationVector
+      - hasConsumptionVector
+      - hasMaxGeneration
+      - hasMaxConsumption
+      - hasEfficiency
+      - hasInitialCapacity
+      - hasMaxCapacity
+      - hasSelfDischarge
+slots:
+  name:
+    description: >-
+      string with short unique human-readable name of the component.
+    range: string
+  originalName:
+    description: >-
+      string with the name assigned by configurator (should be ignored in most cases).
+    range: string
+  isExternal:
+    description: >-
+      boolean that indicates if the component is considered external or not.
+    domain: Component
+    range: boolean
+  hasConsumptionVector:
+    description: >-
+      connected energy vector from which the component consumes energy.
+    domain: Component
+    range: EnergyVector
+  hasGenerationVector:
+    description: >-
+      connected energy vector to which the component generates energy.
+    domain: Component
+    range: EnergyVector
+  hasMaxConsumption:
+    description: >-
+      number indicating maximum energy consumption from the connected energy vector in kW.
+    domain: Component
+    range: float
+  hasMaxGeneration:
+    description: >-
+      number indicating maximum energy generation in the connected energy vector in kW.
+    domain: Component
+    range: float
+  hasEnergyRequirement:
+    description: >-
+      number indicating how much energy should be consumed by the component in given flexibility period in kWh.
+    domain: TimeFlexibleConsumptionComponent
+    range: float
+  hasFlexiblePeriodStart:
+    description: >-
+      time of the day from which the component can consume energy.
+    domain: TimeFlexibleConsumptionComponent
+    range: string
+  hasFlexiblePeriodEnd:
+    description: >-
+      time of the day until which the component can consume energy.
+    domain: TimeFlexibleConsumptionComponent
+    range: string
+  hasEfficiency:
+    description: >-
+      number indicating the efficiency of the energy conversion.
+    domain: Component
+    range: float
+  hasInitialCapacity:
+    description: >-
+      number indicating initial capacity of the storage, before first timestep in kWh.
+    domain: StorageComponent
+    range: float
+  hasMaxCapacity:
+    description: >-
+      number indicating maximum capacity of the storage in kWh.
+    domain: StorageComponent
+    range: float
+  hasSelfDischarge:
+    description: >-
+      number indicating the fraction of charge lost at each time step.
+    domain: StorageComponent
+    range: float

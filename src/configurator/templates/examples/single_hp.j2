@@ -1,0 +1,55 @@
+{% set text %}
+The community of the buildings contains 1 building. Each building has its own meter measuring electrical consumption and another meter measuring heating consumption. 
+Building "alice" shares the same electrical connection (same wiring) to several assets: a national electric grid, an electrical energy storage system, and a heat pump. 
+The national electric grid connection allows for importing 20 kW and exporting 100 kW of electricity. 
+The electrical energy storage system installed in the building "alice" has a maximum capacity of 25 kWh. 
+The storage system's maximum charging power is 6 kW, and its discharging power is 6 kW. The storage system's charging and discharging efficiencies are 0.95. 
+The heat pump installed in the building "alice" has a coefficient of performance of 3. 
+The heat pump installed in the building "alice" has a maximum electrical consumption of 70 kW, and its maximum heat generation is 210 kW. 
+Building "alice" has a connection to a heat pump.
+{% endset %}
+
+{% set rdf %}
+@prefix s4bldg: <https://saref.etsi.org/saref4bldg/v2.1.1/> .
+@prefix s4bldg_lite: <https://github.com/gagst/s4bldg_lite> .
+s4bldg_lite:a-heat-pump-tuna a s4bldg:EnergyConversionDevice ;
+    s4bldg:isContainedIn s4bldg_lite:space-alice ;
+    s4bldg:nominalHeatingCapacity "210 kW" ;
+    s4bldg:nominalPowerConsumption "70 kW" .
+s4bldg_lite:a-national-electric-grid-tamarin a s4bldg:FlowMeter ;
+    s4bldg:apparentPowerMax "100 kW",
+        "20 kW" ;
+    s4bldg:isContainedIn s4bldg_lite:space-alice .
+s4bldg_lite:an-electrical-energy-storage-system-tortoise a s4bldg:ElectricFlowStorageDevice ;
+    s4bldg:apparentPowerMax "6 kW" ;
+    s4bldg:isContainedIn s4bldg_lite:space-alice ;
+    s4bldg:nominalPowerConsumption "6 kW" ;
+    s4bldg:storageType "BATTERY" .
+s4bldg_lite:toucan a s4bldg:SpaceHeater ;
+    s4bldg:isContainedIn s4bldg_lite:space-alice .
+s4bldg_lite:trout a s4bldg:ElectricAppliance ;
+    s4bldg:isContainedIn s4bldg_lite:space-alice .
+s4bldg_lite:building-alice a s4bldg:Building .
+s4bldg_lite:space-alice a s4bldg:BuildingSpace ;
+    s4bldg:isSpaceOf s4bldg_lite:building-alice .
+{% endset %}
+
+
+{% if configurator.input_source_is_text %}Text: {{- text | replace('\n', ' ') | trim }}{% else %}RDF data: {{ rdf }}{% endif %}
+{% if for_vector %}
+Answer: ["electricity", "heating"]
+{% elif for_component and component_type == component_type_enum.FIXED_GENERATION %}
+Answer: []
+{% elif for_component and component_type == component_type_enum.FIXED_CONSUMPTION %}
+Answer: [{ "name": "toucan", "hasConsumptionVector": "heating"}, { "name": "toucan", "hasConsumptionVector": "electricity" }]
+{% elif for_component and component_type == component_type_enum.FLEXIBLE_GENERATION %}
+Answer: [{"name": "tamarin", "hasGenerationVector": "electricity",  "hasMaxGeneration": 20}]
+{% elif for_component and component_type == component_type_enum.FLEXIBLE_CONSUMPTION %}
+Answer: [{ "name": "tamarin", "hasConsumptionVector": "electricity",  "hasMaxConsumption": 100}]
+{% elif for_component and component_type == component_type_enum.TIME_FLEXIBLE_CONSUMPTION %}
+Answer: []
+{% elif for_component and component_type == component_type_enum.STORAGE %}
+Answer: [{"name": "tortoise", "hasGenerationVector": "electricity", "hasConsumptionVector": "electricity", "hasMaxGeneration": 6, "hasMaxConsumption": 6, "hasEfficiency": 0.95, "hasMaxCapacity": 25}]
+{% elif for_component and component_type == component_type_enum.INTERCONNECTOR %}
+Answer: [{ "name": "tuna", "hasConsumptionVector": "electricity",  "hasGenerationVector": "heating", "hasMaxConsumption": 70, "hasMaxGeneration": 210, "hasEfficiency": 3}]
+{% endif %}

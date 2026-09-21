@@ -1,0 +1,183 @@
+id: https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl
+name: brick_lite
+imports:
+  - linkml:types
+prefixes:
+  linkml: https://w3id.org/linkml/
+  brick_lite: https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/brick_lite.owl.ttl/
+  brick: https://brickschema.org/schema/Brick#
+  rec: https://w3id.org/rec#
+  unit: https://qudt.org/vocab/unit/
+default_prefix: brick
+
+classes:
+  SemanticDescription:
+    tree_root: true
+    class_uri: brick_lite:SemanticDescription
+    attributes:
+      loops:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: Loop
+      systems:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: System
+      buildings:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: Building
+      equipment:
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: Equipment
+  Loop:
+    class_uri: brick:Loop
+    slots:
+      - id
+      - hasPart
+  HotWaterLoop:
+    class_uri: brick:Hot_Water_Loop
+    is_a: Loop
+  System:
+    class_uri: brick:System
+    slots:
+      - id
+      - hasPart
+  DomesticHotWaterSystem:
+    class_uri: brick:Domestic_Hot_Water_System
+    is_a: System
+  ElectricalSystem:
+    class_uri: brick:Electrical_System
+    is_a: System
+  EnergySystem:
+    class_uri: brick:Energy_System
+    is_a: ElectricalSystem
+  EnergyGenerationSystem:
+    class_uri: brick:Energy_Generation_System
+    is_a: EnergySystem
+  PVGenerationSystem:
+    class_uri: brick:PV_Generation_System
+    is_a: EnergyGenerationSystem
+  EnergyStorageSystem:
+    class_uri: brick:Energy_Storage_System
+    is_a: EnergySystem
+  BatteryEnergyStorageSystem:
+    class_uri: brick:Battery_Energy_Storage_System
+    is_a: EnergyStorageSystem
+  HotWaterSystem:
+    class_uri: brick:Hot_Water_System
+    is_a: System
+  Equipment:
+    class_uri: brick:Equipment
+    slots:
+      - id
+      - hasPart
+      - hasLocation
+  Boiler:
+    class_uri: brick:Boiler
+    is_a: Equipment
+    slots:
+      - ratedPowerOutput
+  ElectricalEquipment:
+    class_uri: brick:Electrical_Equipment
+    is_a: Equipment
+  Transformer:
+    class_uri: brick:Transformer
+    is_a: Equipment
+  ElectricVehicleChargingStation:
+    class_uri: brick:Electric_Vehicle_Charging_Station
+    is_a: Equipment
+    slots:
+      - electricVehicleChargerDirectionality
+      - ratedPowerInput
+  Battery:
+    class_uri: brick:Battery
+    is_a: Equipment
+    slots:
+      - ratedPowerInput
+      - ratedPowerOutput
+      - conversionEfficiency
+  PVPanel:
+    class_uri: brick:PV_Panel
+    is_a: Equipment
+  PackagedHeatPump:
+    class_uri: brick:Packaged_Heat_Pump
+    is_a: Equipment
+    slots:
+      - ratedPowerInput
+      - ratedPowerOutput
+      - conversionEfficiency
+  ElectricalMeter:
+    class_uri: brick:Electrical_Meter
+    is_a: Equipment
+    slots:
+      - ratedPowerInput
+      - ratedPowerOutput
+  HotWaterMeter:
+    class_uri: brick:Hot_Water_Meter
+    is_a: Equipment
+    slots:
+      - ratedPowerInput
+      - ratedPowerOutput
+  BuildingElectricalMeter:
+    class_uri: brick:Building_Electrical_Meter
+    is_a: ElectricalMeter
+  BuildingHotWaterMeter:
+    class_uri: brick:Building_Hot_Water_Meter
+    is_a: HotWaterMeter
+  Building:
+    class_uri: rec:Building
+    slots:
+      - id
+  PropValue:
+    slots:
+      - value
+      - hasUnit
+
+slots:
+  id:
+    identifier: true
+  value:
+    slot_uri: brick:value
+    range: float
+  hasUnit:
+    slot_uri: brick:hasUnit
+    range: Units
+  hasPart:
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+    slot_uri: brick:hasPart
+    range: Equipment
+  hasLocation:
+    slot_uri: brick:hasLocation
+    range: Building
+  ratedPowerOutput:
+    slot_uri: brick:ratedPowerOutput
+    range: PropValue
+    inlined: true
+  ratedPowerInput:
+    slot_uri: brick:ratedPowerInput
+    range: PropValue
+    inlined: true
+  electricVehicleChargerDirectionality:
+    slot_uri: brick:electricVehicleChargerDirectionality
+    range: PropValue
+    inlined: true
+  conversionEfficiency:
+    slot_uri: brick:conversionEfficiency
+    range: PropValue
+    inlined: true
+
+enums:
+  Units:
+    permissible_values:
+      KW:
+        meaning: unit:KiloW
+      KWH:
+        meaning: unit:KiloW-HR

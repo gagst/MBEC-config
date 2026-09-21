@@ -1,0 +1,70 @@
+# Parameters for scenario generation
+# Large size, all buildings share one electrical and one heating infrastructure
+
+ScenarioGenerator:
+  seed: 152
+  max_n_buildings: 15
+  custom_electricity_infra_prob: 0
+  create_new_shared_electricity_infra_prob: 0
+  custom_heating_infra_prob: 0
+  ev_prob: 0
+  storage_prob: 0.5
+  pv_prob: 0.5
+  boiler_prob: 0.5
+  heat_pump_prob: 0.5
+  heat_grid_prob: 0.5
+
+Boiler:
+  gen_at_least_kw: 10
+  gen_at_most_kw: 500
+  external_prob: 0.2
+
+ElectricalConsumption:
+  cons_at_least_kw: 5
+  cons_at_most_kw: 1000
+
+HeatingConsumption:
+  cons_at_least_kw: 5
+  cons_at_most_kw: 1000
+
+EV:
+  cons_at_least_kw: 11
+  cons_at_most_kw: 11
+  required_cons_at_least_kwh: 50
+  required_cons_at_most_kwh: 100
+  time_from: "18:00"
+  time_till: "07:00"
+
+ElectricalGrid:
+  gen_at_least_kw: 5
+  gen_at_most_kw: 1000
+  consumption_ratio: 0.5
+  allow_consumption_prob: 0.5
+
+HeatingGrid:
+  gen_at_least_kw: 5
+  gen_at_most_kw: 1000
+  consumption_ratio: 1
+  allow_consumption_prob: 0.1
+
+HeatPump:
+  gen_at_least_kw: 50
+  gen_at_most_kw: 1000
+  cop_at_least: 2
+  cop_at_most: 5
+  external_prob: 0
+
+PV:
+  gen_at_least_kw: 3
+  gen_at_most_kw: 1000
+
+ElectricalStorage:
+  c_rate_at_least: 0.25
+  c_rate_at_most: 0.5
+  capacity_at_least_kwh: 5
+  capacity_at_most_kwh: 1000
+  efficiency_at_least: 0.95
+  efficiency_at_most: 1
+  self_discharge_at_least: 0
+  self_discharge_at_most: 0.05
+  external_prob: 0.1

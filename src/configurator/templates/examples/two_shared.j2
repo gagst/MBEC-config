@@ -1,0 +1,82 @@
+{% set text %}
+The community of the buildings contains 2 buildings. Each building has its own meter measuring electrical consumption and another meter measuring heating consumption. 
+Buildings "alice" and "bob" share the same electrical connection (same wiring) to several assets: a national electric grid and an electrical energy storage system. 
+The national electric grid connection allows for importing 20 kW and exporting 100 kW of electricity. 
+The electrical energy storage system has a maximum capacity of 25 kWh. 
+The storage system's maximum charging power is 6 kW, and its discharging power is 6 kW. The storage system's charging and discharging efficiencies are 0.95. 
+Buildings "alice" and "bob" have a connection to district heating. The district heating connection allows for importing 50 kW and exporting 140 kW of heat.
+{% endset %}
+
+{% set rdf %}
+@prefix brick1: <https://brickschema.org/schema/Brick> .
+@prefix brick_lite: <https://github.com/gagst/brick_lite> .
+@prefix rec: <https://w3id.org/rec> .
+@prefix unit: <https://qudt.org/vocab/unit> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+brick_lite:loop-heating a brick1:Hot_Water_Loop ;
+    brick1:hasPart brick_lite:district-heating-tuna,
+        brick_lite:toucan,
+        brick_lite:wolverine .
+brick_lite:system-electricity a brick1:Energy_System ;
+    brick1:hasPart brick_lite:a-national-electric-grid-tamarin,
+        brick_lite:an-electrical-energy-storage-system-tortoise,
+        brick_lite:trout,
+        brick_lite:zebrafish .
+brick_lite:system-heating a brick1:Hot_Water_System ;
+    brick1:hasPart brick_lite:district-heating-tuna,
+        brick_lite:toucan,
+        brick_lite:wolverine .
+brick_lite:a-national-electric-grid-tamarin a brick1:Electrical_Meter ;
+    brick1:ratedPowerInput [
+            brick1:hasUnit unit:KiloW ;
+            brick1:value "20.0"^^xsd:float ] ;
+    brick1:ratedPowerOutput [
+            brick1:hasUnit unit:KiloW ;
+            brick1:value "100.0"^^xsd:float ] .
+brick_lite:an-electrical-energy-storage-system-tortoise a brick1:Battery ;
+    brick1:conversionEfficiency [
+            brick1:value "0.95"^^xsd:float ] ;
+    brick1:ratedPowerInput [
+            brick1:hasUnit unit:KiloW ;
+            brick1:value "6.0"^^xsd:float ] ;
+    brick1:ratedPowerOutput [
+            brick1:hasUnit unit:KiloW ;
+            brick1:value "6.0"^^xsd:float ] .
+brick_lite:trout a brick1:Building_Electrical_Meter ;
+    brick1:hasLocation brick_lite:building-bob .
+brick_lite:zebrafish a brick1:Building_Electrical_Meter ;
+    brick1:hasLocation brick_lite:building-alice .
+brick_lite:building-alice a rec:Building .
+brick_lite:building-bob a rec:Building .
+brick_lite:district-heating-tuna a brick1:Hot_Water_Meter ;
+    brick1:ratedPowerInput [
+            brick1:hasUnit unit:KiloW ;
+            brick1:value "50.0"^^xsd:float ] ;
+    brick1:ratedPowerOutput [
+            brick1:hasUnit unit:KiloW ;
+            brick1:value "140.0"^^xsd:float ] .
+brick_lite:toucan a brick1:Building_Hot_Water_Meter ;
+    brick1:hasLocation brick_lite:building-alice .
+brick_lite:wolverine a brick1:Building_Hot_Water_Meter ;
+    brick1:hasLocation brick_lite:building-bob .
+{% endset %}
+
+
+{% if configurator.input_source_is_text %}Text: {{- text | replace('\n', ' ') | trim }}{% else %}RDF data: {{ rdf }}{% endif %}
+{% if for_vector %}
+Answer: ["electricity", "heating"]
+{% elif for_component and component_type == component_type_enum.FIXED_GENERATION %}
+Answer: []
+{% elif for_component and component_type == component_type_enum.FIXED_CONSUMPTION %}
+Answer: [{ "name": "toucan", "hasConsumptionVector": "heating" }, { "name": "trout", "hasConsumptionVector": "electricity" }, { "name": "wolverine", "hasConsumptionVector": "heating" }, { "name": "zebrafish", "hasConsumptionVector": "electricity" }]
+{% elif for_component and component_type == component_type_enum.FLEXIBLE_GENERATION %}
+Answer: [{"name": "tamarin", "hasGenerationVector": "electricity",  "hasMaxGeneration": 20}, { "name": "tuna", "hasGenerationVector": "heating",  "hasMaxGeneration": 50}]
+{% elif for_component and component_type == component_type_enum.FLEXIBLE_CONSUMPTION %}
+Answer: [{"name": "tamarin", "hasConsumptionVector": "electricity",  "hasMaxConsumption": 100}, { "name": "tuna", "hasConsumptionVector": "heating",  "hasMaxConsumption": 140}]
+{% elif for_component and component_type == component_type_enum.TIME_FLEXIBLE_CONSUMPTION %}
+Answer: []
+{% elif for_component and component_type == component_type_enum.STORAGE %}
+Answer: [{"name": "tortoise", "hasGenerationVector": "electricity", "hasConsumptionVector": "electricity", "hasMaxGeneration": 6, "hasMaxConsumption": 6, "hasEfficiency": 0.95, "hasMaxCapacity": 25}]
+{% elif for_component and component_type == component_type_enum.INTERCONNECTOR %}
+Answer: []
+{% endif %}

@@ -1,0 +1,369 @@
+id: https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl
+name: KEES
+imports:
+  - linkml:types
+prefixes:
+  linkml: https://w3id.org/linkml/
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+  kees: https://raw.githubusercontent.com/gagst/MBEC-config/main/ontologies/kees.owl.ttl/
+  qudt: http://qudt.org/2.1/schema/qudt/
+default_prefix: kees
+
+classes:
+  QuantityKind:
+    class_uri: qudt:QuantityKind
+  Unit:
+    class_uri: qudt:Unit
+  Timestep:
+    description: >-
+      Timestep of the scheduling horizon. The mapping between real datetime 
+      and timesteps can be provided using properties of the class.
+    slots:
+      - forRun
+      - fromDateTime
+      - tillDateTime
+      - hasIndex
+  ParameterValue:
+    exact_mappings: qudt:QuantityValue
+    description: >-
+      A parameter consists of one or multiple ParameterValues. They are unique in their value and timestep. 
+      The parameter contains the metadata that is the same for all ParameterValues, 
+      such as the component they are given for and their qudt:QuantityKind.
+    slots:
+      - forTimestep
+      - hasUnit
+      - numericValue
+  Parameter:
+    description: >-
+      A parameter represents data received by the scheduler service.
+      A parameter consists of one or multiple ParameterValues that are usually unique in their timestep and can have different values. 
+      The parameter contains the metadata that is the same for all ParameterValues, 
+      such as the component they are given for and their qudt:QuantityKind.
+    slots:
+      - hasQuantityKind
+  SingleValueParameter:
+    description: >-
+      A parameter that contains only one parameter value (value is constant over all timesteps).
+    is_a: Parameter
+    slot_usage:
+      hasValue:
+        exact_cardinality: 1
+  MultiValueParameter:
+    description: >-
+      A parameter that contains more that one parameter value.
+    is_a: Parameter
+    slot_usage:
+      hasValue:
+        multivalued: true
+        minimum_cardinality: 1
+  SchedulerRun:
+    description: >-
+      Scheduler run contains the information about the scheduler parameters, such as objective weights,
+      scheduling horizon, the date of the first timestep. 
+      The components and energy vectors can be created specifically for a scheduler run.
+    slots:
+      - hasCostObjectiveWeight
+      - hasEmissionsObjectiveWeight
+      - hasExternalConsumptionObjectiveWeight
+      - hasExternalGenerationObjectiveWeight
+      - hasTimestepDuration
+      - hasSchedulingHorizonLength
+  EnergyVector:
+    description: >-
+        Energy vector represents the infrastructure of the building that can be used to transfer energy between different components.
+        The components can generate and consume energy to and from connected energy vectors.
+    slots:
+      - name
+      - forRun
+  Component:
+    description: >-
+      A component is a representation of one or multiple physical assets. They are connected to at least one energy vector
+      and can consume energy from a vector or generate energy to a vector.
+    slots:
+      - name
+      - forRun
+      - isExternal
+  ConsumptionComponent:
+    is_a: Component
+    description: >-
+      A component that consumes energy from an energy vector.
+    slots:
+      - hasConsumptionVector
+      - hasGeneration
+  GenerationComponent:
+    is_a: Component
+    description: >-
+      A component that generates energy to an energy vector.
+    slots:
+      - hasGenerationVector
+      - hasGeneration
+  FixedComponent:
+    is_a: Component
+    description: >-
+      A component that is not controllable.
+  FlexibleComponent:
+    is_a: Component
+    description: >-
+      A component that is controllable. Its generation or consumption can be adjusted within some bounds.
+    slots:
+      - hasCost
+      - hasEmission
+      - hasRevenue
+  FixedConsumptionComponent:
+    is_a: FixedComponent
+    description: >-
+      A component that consumes energy from an energy vector and is not controllable.
+      For example, an energy demand when there is no demand side management is implemented.
+    mixins:
+      - ConsumptionComponent
+  FixedGenerationComponent:
+    is_a: FixedComponent
+    description: >-
+      A component that generates energy to one connected energy vector and is not controllable. 
+      For example, a PV might have a forecast for the next 24 hours.
+    mixins:
+      - GenerationComponent
+  FlexibleConsumptionComponent:
+    is_a: FlexibleComponent
+    description: >-
+      A controllable component that consumes energy from one connected energy vector. 
+      Its consumption can be controlled within a given bound.
+    mixins:
+      - ConsumptionComponent
+    slots:
+      - hasMaxConsumption
+  TimeFlexibleConsumptionComponent:
+    is_a: FlexibleComponent
+    description: >-
+      Time-flexible consumption component consumes energy only between given time frame. 
+      Washing machines or other flexible appliances are examples of assets that can be represented by the component.
+    mixins:
+      - ConsumptionComponent
+    slots:
+      - hasMaxConsumption
+      - hasEnergyRequirement
+      - hasFlexiblePeriodStart
+      - hasFlexiblePeriodEnd
+  FlexibleGenerationComponent:
+    is_a: FlexibleComponent
+    description: >-
+      A component that generates energy to one connected energy vector. 
+      Its generation can be controlled within a given bound
+    mixins:
+      - GenerationComponent
+    slots:
+      - hasMaxGeneration
+  InterconnectorComponent:
+    is_a: GenerationComponent
+    description: >-
+      A controllable component that consumes energy from one energy vector, transforms it with given efficiency,
+      and generates the energy to another connected energy vector. For instance, heat pump or electrical transformer.
+    mixins:
+      - ConsumptionComponent
+    slots:
+      - hasMaxGeneration
+      - hasMaxConsumption
+      - hasEfficiency
+  StorageComponent:
+    is_a: GenerationComponent
+    description: >-
+      A component that can store energy and can consume and generate from/to an energy vector, e.g. a battery storage system.
+    mixins:
+      - ConsumptionComponent
+    slots:
+      - hasMaxGeneration
+      - hasMaxConsumption
+      - hasEfficiency
+      - hasInitialCapacity
+      - hasMaxCapacity
+      - hasSelfDischarge
+slots:
+  name:
+    description: >-
+      String with short human-readable name of the component.
+    identifier: true
+    slot_uri: rdfs:label
+    range: string
+    required: true
+  hasQuantityKind:
+    slot_uri: qudt:hasQuantityKind
+    domain: Parameter
+    range: QuantityKind
+    required: true
+  hasUnit:
+    slot_uri: qudt:hasUnit
+    domain: ParameterValue
+    range: Unit
+    required: true
+  numericValue:
+    slot_uri: qudt:numericValue
+    domain: ParameterValue
+    range: float
+    required: true
+  hasValue:
+    description: >-
+      Connects Parameter and ParameterValue. Note that a Parameter can have multiple values, thus multiple hasValue properties.
+    domain: Parameter
+    range: ParameterValue
+    required: true
+  forTimestep:
+    description: >-
+      Indicates that the concept is relevant for the selected timestep.
+    range: Timestep
+    required: true
+  forRun:
+    description: >-
+      Indicates that the concept is relevant for the selected optimization run.
+    range: SchedulerRun
+    multivalued: true
+  fromDateTime:
+    description: >-
+      Indicates the datetime of the beginning of the timestep.
+    domain: Timestep
+    range: datetime
+  tillDateTime:
+    description: >-
+      Indicates the last datetime of the timestep.
+    domain: Timestep
+    range: datetime
+  hasIndex:
+    description: >-
+      Integer index of the timestep (always increasing, unique integer value, assigned chronologically to timesteps).
+    domain: Timestep
+    range: integer
+    minimum_value: 0
+    required: true
+  isExternal:
+    description: >-
+      Boolean that indicates if the component is considered external or not.
+    domain: Component
+    range: boolean
+    required: true
+  hasConsumptionVector:
+    description: >-
+      Connected energy vector from which the component consumes energy.
+    domain: ConsumptionComponent
+    range: EnergyVector
+    required: true
+  hasGenerationVector:
+    description: >-
+      Connected energy vector to which the component generates energy.
+    domain: GenerationComponent
+    range: EnergyVector
+    required: true
+  hasGeneration:
+    description: >-
+      Output of the energy scheduler containing scheduled generation for the component.
+    range: Parameter
+    required: true
+  hasConsumption:
+    description: >-
+      Output of the energy scheduler containing scheduled consumption for the component.
+    range: Parameter
+    required: true
+  hasCost:
+    description: >-
+      Cost of producing or consuming one unit of power/energy by the component.
+    domain: FlexibleComponent
+    range: Parameter
+  hasEmission:
+    description: >-
+      Emitted emissions corresponding to production or consumption of one unit of power/energy by the component.
+    domain: FlexibleComponent
+    range: Parameter
+  hasRevenue:
+    description: >-
+      Revenue received by producing or consuming one unit of power/energy by the component.
+    domain: FlexibleComponent
+    range: Parameter
+  hasMaxConsumption:
+    description: >-
+      Number indicating maximum energy consumption from the connected energy vector.
+    domain: ConsumptionComponent
+    range: Parameter
+    required: true
+  hasMaxGeneration:
+    description: >-
+      Number indicating maximum energy generation in the connected energy vector.
+    domain: GenerationComponent
+    range: Parameter
+    required: true
+  hasEnergyRequirement:
+    description: >-
+      Number indicating how much energy should be consumed by the component in given flexibility period.
+    domain: TimeFlexibleConsumptionComponent
+    range: SingleValueParameter
+    required: true
+  hasFlexiblePeriodStart:
+    description: >-
+      Timestep from which the component can consume energy.
+    domain: TimeFlexibleConsumptionComponent
+    range: Timestep
+    required: true
+  hasFlexiblePeriodEnd:
+    description: >-
+      Timestep until which the component can consume energy.
+    domain: TimeFlexibleConsumptionComponent
+    range: Timestep
+    required: true
+  hasEfficiency:
+    description: >-
+      Number indicating the efficiency of the energy conversion.
+    domain: Component
+    range: Parameter
+    required: true
+  hasInitialCapacity:
+    description: >-
+      Number indicating initial capacity of the storage, before first timestep.
+    domain: StorageComponent
+    range: SingleValueParameter
+    required: true
+  hasMaxCapacity:
+    description: >-
+      Number indicating maximum capacity of the storage.
+    domain: StorageComponent
+    range: Parameter
+    required: true
+  hasSelfDischarge:
+    description: >-
+      Number indicating the fraction of charge lost at each timestep.
+    domain: StorageComponent
+    range: Parameter
+    required: true
+  hasCostObjectiveWeight:
+    description: >-
+      Relative weight for the cost minimization (and revenue maximization) objective in multi-objective function.
+    domain: SchedulerRun
+    range: float
+    required: true
+  hasEmissionsObjectiveWeight:
+    description: >-
+      Relative weight for the emissions minimization objective in multi-objective function.
+    domain: SchedulerRun
+    range: float
+    required: true
+  hasExternalConsumptionObjectiveWeight:
+    description: >-
+      Relative weight for the minimization of consumption from external components in multi-objective function.
+    domain: SchedulerRun
+    range: float
+    required: true
+  hasExternalGenerationObjectiveWeight:
+    description: >-
+      Relative weight for the minimization of generation from external components in multi-objective function.
+    domain: SchedulerRun
+    range: float
+    required: true
+  hasTimestepDuration:
+    description: >-
+      Duration of the timestep.
+    domain: SchedulerRun
+    range: Timestep
+    required: true
+  hasSchedulingHorizonLength:
+    description: >-
+      Number of considered timesteps.
+    domain: SchedulerRun
+    range: integer
+    minimum_value: 1
+    required: true

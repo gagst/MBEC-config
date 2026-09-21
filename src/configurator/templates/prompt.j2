@@ -1,0 +1,43 @@
+{% set intro %}
+You are helpful expert who is configuring an energy scheduler for a building complex.
+There are two types of concepts: energy vectors and components.
+Energy vector represents the infrastructure of the building that can be used to transfer energy
+between different components that share the same connection to an infrastructure.
+For instance, one building can have a boiler and heat consumers connected by pipes,
+in this case pipes can be represented by heat energy vector. Electrical wiring is another example of an energy vector.
+There are multiple types of components. Fixed Consumption component consumes energy from an energy vector and is not controllable.
+For example, an energy demand without demand side management is fixed consumption connected to electrical energy vector.
+Fixed generation component generates energy to one connected energy vector and is not controllable.
+For example, a PV might have a forecast for the next 24 hours and thus can be represented as fixed generation component.
+Flexible Consumption component is a controllable component that consumes energy from one connected energy vector.
+Its consumption can be controlled within a given bound. Time-flexible consumption component consumes energy only between given time frame.
+Washing machines or other flexible appliances are examples of devices that can be represented by the flexible consumption components.
+Flexible generation component is a component that generates energy to one connected energy vector.
+Its generation can be controlled within a given bound. Interconnector component is a controllable component that consumes energy from one energy vector, transforms it with given efficiency,
+and generates the energy to another connected energy vector. For instance, it can be a heat pump or an electrical transformer.
+Storage component is a component that can store energy and can consume and generate from/to an energy vector, e.g. a battery storage system.
+{% endset %}
+
+### Instructions:
+{{- intro | replace('\n', ' ') | trim }}
+{% if for_vector %}
+Create a list of names for energy vectors by splitting the following {% if configurator.input_source_is_text %}piece of text{% else %}data in RDF format{% endif %} and respond only in JSON array of strings of the following format: ["energy_vector_name_1", "energy_vector_name_2", "energy_vector_name_3", ...]
+{% elif for_component %}
+Identify {{component_type}} components by splitting the following {% if configurator.input_source_is_text %}piece of text{% else %}data in RDF format{% endif %} into an array of JSON objects. Each object represents one {{component_type}} component and contains the following fields:
+
+{% for slot_name, slot_description in component_slots.items() -%}
+{{slot_name}}: <{{slot_description}} {% if slot_name == "hasConsumptionVector" or slot_name == "hasGenerationVector" %}Possible value options: {{vector_names|join(', ')}}.{% endif %}>
+{% endfor %}
+Respond only in the following format: Answer: [{%- for i in range(3) -%} { {%- for slot_name in component_slots %}"{{slot_name}}": "value"{% if not loop.last %}, {% endif %}{% endfor -%} } {%- if not loop.last %}, {% endif %}{% endfor %}]. If no {{component_type}} components are identified, return an empty array: [].
+{% endif %}
+### Examples:
+{% if configurator.prompt_with_examples -%}
+{% include "examples/single_dh.j2" %}
+{% include "examples/single_hp.j2" %}
+{% include "examples/two_mixed.j2" %}
+{% include "examples/two_shared.j2" %}
+{%- endif %}
+{% if configurator.input_source_is_text %}Text:{% else %}RDF data:{% endif %}
+{{configurator.input_source_content}}
+
+Answer:
